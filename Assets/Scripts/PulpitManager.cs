@@ -22,25 +22,31 @@ public class PulpitManager : MonoBehaviour
 
     private void Update()
     {
+        // If the current Pulpit has been destroyed,
+        // promote the next Pulpit.
         if (currentPulpit == null)
         {
+            PromoteNextPulpit();
             return;
         }
 
+        // Spawn the next Pulpit when the current
+        // Pulpit's remaining time reaches the threshold.
         if (nextPulpit == null && ShouldSpawnNextPulpit())
         {
             SpawnNextPulpit();
-        }
-
-        if (currentPulpit == null)
-        {
-            currentPulpit = nextPulpit;
-            nextPulpit = null;
         }
     }
 
     private bool ShouldSpawnNextPulpit()
     {
+        if (GameConfig.Instance == null ||
+            GameConfig.Instance.Data == null)
+        {
+            Debug.LogError("GameConfig is not available.");
+            return false;
+        }
+
         float spawnTime =
             GameConfig.Instance.Data.pulpit_data.pulpit_spawn_time;
 
@@ -59,6 +65,21 @@ public class PulpitManager : MonoBehaviour
         );
 
         nextPulpit.Initialize();
+    }
+
+    private void PromoteNextPulpit()
+    {
+        if (nextPulpit == null)
+        {
+            Debug.LogError(
+                "Current Pulpit was destroyed before a next Pulpit was available."
+            );
+
+            return;
+        }
+
+        currentPulpit = nextPulpit;
+        nextPulpit = null;
     }
 
     private Vector3 GetAdjacentPosition(Vector3 currentPosition)
