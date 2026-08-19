@@ -5,6 +5,8 @@ public class Pulpit : MonoBehaviour
     private float destroyTime;
     private float remainingTime;
 
+    private bool playerHasLanded = false;
+
     public float RemainingTime => remainingTime;
 
     public void Initialize()
@@ -24,6 +26,8 @@ public class Pulpit : MonoBehaviour
 
         destroyTime = Random.Range(minTime, maxTime);
         remainingTime = destroyTime;
+
+        playerHasLanded = false;
     }
 
     private void Update()
@@ -40,6 +44,22 @@ public class Pulpit : MonoBehaviour
         {
             remainingTime = 0f;
             Destroy(gameObject);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (playerHasLanded)
+            return;
+
+        if (!collision.gameObject.CompareTag("Player"))
+            return;
+
+        playerHasLanded = true;
+
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.AddPoint();
         }
     }
 }
