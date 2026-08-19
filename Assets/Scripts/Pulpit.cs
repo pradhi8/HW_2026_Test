@@ -9,14 +9,18 @@ public class Pulpit : MonoBehaviour
 
     public void Initialize()
     {
-        if (GameConfig.Instance == null || GameConfig.Instance.Data == null)
+        if (GameConfig.Instance == null ||
+            GameConfig.Instance.Data == null)
         {
             Debug.LogError("GameConfig is not loaded.");
             return;
         }
 
-        float minTime = GameConfig.Instance.Data.pulpit_data.min_pulpit_destroy_time;
-        float maxTime = GameConfig.Instance.Data.pulpit_data.max_pulpit_destroy_time;
+        float minTime =
+            GameConfig.Instance.Data.pulpit_data.min_pulpit_destroy_time;
+
+        float maxTime =
+            GameConfig.Instance.Data.pulpit_data.max_pulpit_destroy_time;
 
         destroyTime = Random.Range(minTime, maxTime);
         remainingTime = destroyTime;
@@ -24,20 +28,18 @@ public class Pulpit : MonoBehaviour
 
     private void Update()
     {
-        if (GameManagerIsPlaying())
+        if (GameManager.Instance == null)
+            return;
+
+        if (GameManager.Instance.IsGameOver)
+            return;
+
+        remainingTime -= Time.deltaTime;
+
+        if (remainingTime <= 0f)
         {
-            remainingTime -= Time.deltaTime;
-
-            if (remainingTime <= 0f)
-            {
-                remainingTime = 0f;
-                Destroy(gameObject);
-            }
+            remainingTime = 0f;
+            Destroy(gameObject);
         }
-    }
-
-    private bool GameManagerIsPlaying()
-    {
-        return true;
     }
 }

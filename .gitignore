@@ -30,3 +30,6 @@ sysinfo.txt
 
 # Unity solution files
 *.slnx
+
+# Unity recovery files
+Assets/_Recovery/

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PulpitManager : MonoBehaviour
 {
+    [SerializeField] private Pulpit startingPulpit;
     [SerializeField] private Pulpit pulpitPrefab;
 
     private Pulpit currentPulpit;
@@ -9,29 +10,24 @@ public class PulpitManager : MonoBehaviour
 
     private void Start()
     {
-        currentPulpit = FindAnyObjectByType<Pulpit>();
-
-        if (currentPulpit == null)
+        if (startingPulpit == null)
         {
-            Debug.LogError("No starting Pulpit found in the scene.");
+            Debug.LogError("Starting Pulpit has not been assigned.");
             return;
         }
 
+        currentPulpit = startingPulpit;
         currentPulpit.Initialize();
     }
 
     private void Update()
     {
-        // If the current Pulpit has been destroyed,
-        // promote the next Pulpit.
         if (currentPulpit == null)
         {
             PromoteNextPulpit();
             return;
         }
 
-        // Spawn the next Pulpit when the current
-        // Pulpit's remaining time reaches the threshold.
         if (nextPulpit == null && ShouldSpawnNextPulpit())
         {
             SpawnNextPulpit();
