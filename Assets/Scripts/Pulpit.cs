@@ -55,6 +55,22 @@ public class Pulpit : MonoBehaviour
         if (!collision.gameObject.CompareTag("Player"))
             return;
 
+        Collider playerCollider = collision.gameObject.GetComponent<Collider>();
+        Collider pulpitCollider = GetComponent<Collider>();
+
+        if (playerCollider == null || pulpitCollider == null)
+            return;
+
+        float playerBottom = playerCollider.bounds.min.y;
+        float pulpitTop = pulpitCollider.bounds.max.y;
+
+        bool landedOnTop =
+            playerBottom >= pulpitTop - 0.15f &&
+            collision.transform.position.y > transform.position.y;
+
+        if (!landedOnTop)
+            return;
+
         playerHasLanded = true;
 
         if (ScoreManager.Instance != null)
