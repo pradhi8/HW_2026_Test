@@ -27,3 +27,6 @@ Thumbs.db
 
 # Unity crash reports
 sysinfo.txt
+
+# Unity solution files
+*.slnx
