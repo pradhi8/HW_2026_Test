@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DoofusController doofus;
     [SerializeField] private float fallThreshold = -10f;
     [SerializeField] private GameObject startScreen;
+    [SerializeField] private GameObject gameOverScreen;
+    [SerializeField] private TMP_Text finalScoreText;
 
     private void Awake()
     {
@@ -58,6 +62,25 @@ public class GameManager : MonoBehaviour
     {
         IsGameOver = true;
 
+        if (finalScoreText != null &&
+            ScoreManager.Instance != null)
+        {
+            finalScoreText.text =
+                "Score: " + ScoreManager.Instance.Score;
+        }
+
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(true);
+        }
+
         Debug.Log("GAME OVER - Doofus fell.");
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().name
+        );
     }
 }
