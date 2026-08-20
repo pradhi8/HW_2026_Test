@@ -4,10 +4,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public bool IsGameStarted { get; private set; }
     public bool IsGameOver { get; private set; }
 
     [SerializeField] private DoofusController doofus;
     [SerializeField] private float fallThreshold = -10f;
+    [SerializeField] private GameObject startScreen;
 
     private void Awake()
     {
@@ -22,6 +24,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (!IsGameStarted)
+            return;
+
         if (IsGameOver)
             return;
 
@@ -32,6 +37,21 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
+    }
+
+    public void StartGame()
+    {
+        if (IsGameOver)
+            return;
+
+        IsGameStarted = true;
+
+        if (startScreen != null)
+        {
+            startScreen.SetActive(false);
+        }
+
+        Debug.Log("GAME STARTED.");
     }
 
     private void GameOver()

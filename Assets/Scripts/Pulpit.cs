@@ -35,6 +35,9 @@ public class Pulpit : MonoBehaviour
         if (GameManager.Instance == null)
             return;
 
+        if (!GameManager.Instance.IsGameStarted)
+            return;
+
         if (GameManager.Instance.IsGameOver)
             return;
 
@@ -49,6 +52,12 @@ public class Pulpit : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!GameManager.Instance.IsGameStarted)
+            return;
+
+        if (GameManager.Instance.IsGameOver)
+            return;
+
         if (playerHasLanded)
             return;
 

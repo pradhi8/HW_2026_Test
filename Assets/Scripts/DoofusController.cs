@@ -12,6 +12,15 @@ public class DoofusController : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance == null)
+            return;
+
+        if (!GameManager.Instance.IsGameStarted)
+            return;
+
+        if (GameManager.Instance.IsGameOver)
+            return;
+
         if (Keyboard.current == null)
             return;
 
