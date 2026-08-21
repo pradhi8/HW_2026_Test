@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PulpitManager : MonoBehaviour
 {
-    [SerializeField] private Pulpit startingPulpit;
+    [SerializeField] private Vector3 startingPosition = Vector3.zero;
     [SerializeField] private Pulpit pulpitPrefab;
 
     private Pulpit currentPulpit;
@@ -10,13 +10,18 @@ public class PulpitManager : MonoBehaviour
 
     private void Start()
     {
-        if (startingPulpit == null)
+        if (pulpitPrefab == null)
         {
-            Debug.LogError("Starting Pulpit has not been assigned.");
+            Debug.LogError("Pulpit Prefab has not been assigned.");
             return;
         }
 
-        currentPulpit = startingPulpit;
+        currentPulpit = Instantiate(
+            pulpitPrefab,
+            startingPosition,
+            Quaternion.identity
+        );
+
         currentPulpit.Initialize();
     }
 
