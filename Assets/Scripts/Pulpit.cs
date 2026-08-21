@@ -1,7 +1,9 @@
 using UnityEngine;
+using TMPro;
 
 public class Pulpit : MonoBehaviour
 {
+    [SerializeField] private TextMeshPro timerText;
     private float destroyTime;
     private float remainingTime;
 
@@ -28,6 +30,9 @@ public class Pulpit : MonoBehaviour
         remainingTime = destroyTime;
 
         playerHasLanded = false;
+
+        SetTimerVisible(true);
+        UpdateTimerText();
     }
 
     private void Update()
@@ -47,7 +52,26 @@ public class Pulpit : MonoBehaviour
         {
             remainingTime = 0f;
             Destroy(gameObject);
+            return;
         }
+
+        UpdateTimerText();
+    }
+
+    public void SetTimerVisible(bool visible)
+    {
+        if (timerText != null)
+        {
+            timerText.gameObject.SetActive(visible);
+        }
+    }
+
+    private void UpdateTimerText()
+    {
+        if (timerText == null)
+            return;
+
+        timerText.text = remainingTime.ToString("F1");
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -309,3 +309,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a23459b2090b64bbeab122b672476d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pulpit
+  timerText: {fileID: 5916022614592158187}
